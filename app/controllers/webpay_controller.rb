@@ -11,4 +11,7 @@ class WebpayController < ApplicationController
 
 	def failure
 	end
+
+	def check		
+	end
 end
