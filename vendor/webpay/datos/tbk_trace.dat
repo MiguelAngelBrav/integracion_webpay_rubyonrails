@@ -1,0 +1,15 @@
+GLEVEL     = 7
+ 
+// niveles soportados  LOGINFO  1
+//                     LOGERROR 2 
+//                     LOGFATAL 4
+//
+//                glebel 0 >>> No genera LOG
+//
+// combinatorias  glebel 1 >>> LOGINFO
+//                glebel 2 >>> LOGERROR 
+//                glebel 3 >>> LOGINFO  + LOGERROR 
+//                glebel 4 >>> LOGFATAL  
+//                glebel 5 >>> LOGINFO  + LOGFATAL
+//                glebel 6 >>> LOGERROR + LOGFATAL
+//                glebel 7 >>> LOGINFO  + LOGERROR + LOGFATAL 

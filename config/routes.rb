@@ -1,4 +1,10 @@
 IntegracionWebpayRubyonrails::Application.routes.draw do
+
+  root :to => 'webpay#index'
+
+  match "/success", :to => "webpay#success", :as => "success"
+  match "/failure", :to => "webpay#failure", :as => "failure"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

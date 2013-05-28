@@ -1,0 +1,132 @@
+<HTML>
+<HEAD>
+  <TITLE>Web Pay</TITLE>
+  <META http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+  <SCRIPT language="JavaScript">
+  version=navigator.appVersion.charAt(0);
+    
+  function my_onLoad() {
+      timeout = setTimeout("go()",120000);
+      if(version>="3") ss=true;
+      else document.formulario.submit();
+  }
+  
+  function print_images() {
+      var images = "";
+      if(version>="3") {
+        images="<BR><BR>";
+        images+="<IMG SRC=\"images/cblue.jpg\" NAME=a BORDER=1>";
+        for(i=1;i<10;i++)
+           images+="<IMG SRC=\"images/cblanco.jpg\" NAME=a"+i+" BORDER=1>";
+        images+="<BR><BR>";
+      } else {
+        images="<IMG SRC=\"images/timer.gif\" width=300 height=100>";
+      }
+      document.write(images);
+  }
+
+  if (version >= "3") {
+      ss = false;
+      timerID = null;
+      timerRunning = false;
+      indice = 1;
+      mono = new Image(20,20);
+      mono.src = "images/cblue.jpg";
+  }
+  function stopclock(){
+      if(timerRunning) clearTimeout(timerID);
+      timerRunning = false;
+  }
+  function startclock() {
+      stopclock();
+      showtime();
+  }
+  function showtime() {
+      if (ss) {
+         document.formulario.submit();
+         ss=false;
+      }
+      if (indice<10) document.images["a"+indice++].src = mono.src ;
+      timerID = setTimeout("showtime()",1500);
+      timerRunning = true;
+  }
+  function go(){
+    document.open();
+    <!--REINTE-->
+    document.close();
+    return;
+  }
+
+  //TEXTOS EN ESPANOL
+  var TEXTO_MENSAJE_ESP = new Array();
+  TEXTO_MENSAJE_ESP["MSG_TITULO"] = "PROCESANDO TRANSACCION";
+  TEXTO_MENSAJE_ESP["MSG_LOCK"] = "Esta transacci&oacute;n se est&aacute; realizando sobre un sistema seguro Transbank";
+  TEXTO_MENSAJE_ESP["MSG_PROCESANDO_TRANSACCION"] = "Su transacci&oacute;n est&aacute; siendo procesada.";
+
+  //TEXTOS EN INGLES
+  var TEXTO_MENSAJE_ENG = new Array();
+  TEXTO_MENSAJE_ENG["MSG_TITULO"] = "PROCESSING TRANSACTION";
+  TEXTO_MENSAJE_ENG["MSG_LOCK"] = "Your transaction is being executed on a secure server within Transbank S.A.";
+  TEXTO_MENSAJE_ENG["MSG_PROCESANDO_TRANSACCION"] = "Your transaction is being processed";
+
+  //Selecciona lenguaje
+  var lenguaje = "ESP";
+  //<!--LENGUAJE-->
+  if (lenguaje == "ENG") TEXTO_MENSAJE=TEXTO_MENSAJE_ENG;
+  else TEXTO_MENSAJE = TEXTO_MENSAJE_ESP;
+
+  //Funcion para escribir el texto
+  function mensaje(msgindex) {
+      document.write(TEXTO_MENSAJE[msgindex]);
+  }
+
+</SCRIPT>
+</HEAD>
+<BODY BGCOLOR=#FFFFFF LEFTMARGIN=0 TOPMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0 background="/images/background.gif" onLoad="my_onLoad()">
+<TABLE width="100%" border=0 cellspacing=0 cellpadding=0 height="100%">
+  <TR><TD>
+      <TABLE width="100%" border=0 cellspacing=0 cellpadding=0>
+        <TR bgcolor="#FFFFFF"><TD height=12 align=center>
+           <TABLE width=550 border=0 cellspacing=0 cellpadding=0><TR>
+             <TD width=71><IMG height\=59 width\=130
+                 <!--LOGO-->
+             </TD>
+             <TD width=357 align="center">
+                <FONT face="Arial, Helvetica, sans-serif" size=3><B>
+                <SCRIPT>mensaje("MSG_TITULO")</SCRIPT></B></FONT>
+             </TD>
+             <TD width=122 align="center">
+                 <IMG src="images/webpay.gif">
+	         <SCRIPT> 
+                 if (lenguaje == "ENG")
+                 document.write("<IMG src=\"images/eunservicio.gif\">");
+                 else 
+                 document.write("<IMG src=\"images/unservicio.gif\">");
+                 </SCRIPT>
+             </TD>
+           </TR></TABLE>
+        </TD></TR>
+        <TR bgcolor="#999999"><TD align="center">
+            <SCRIPT>print_images()</SCRIPT>
+            <FONT size=3 face="Arial, Helvetica, sans-serif" color="#ffffff">
+               <SCRIPT>mensaje("MSG_PROCESANDO_TRANSACCION")</SCRIPT>
+            </FONT>
+        </TD></TR>
+        <TR bgcolor="#ffffff"><TD align="center">
+           <TABLE width=550 border=0 cellspacing=0 cellpadding=0><TR>
+             <TD width=31><IMG src="/images/lock.gif" width=24 height=30></TD>
+             <TD width=519>
+                <MARQUEE align="middle" behaviour="slide" direction="Left" scrollamount=4 scrolldelay=2 loop=0>
+                <FONT face="Arial, Helvetica, sans-serif" size=2>
+                <SCRIPT>mensaje("MSG_LOCK")</SCRIPT></MARQUEE>
+             </TD>
+           </TR></TABLE>
+         </TD></TR>
+       </TABLE>
+   </TD></TR>
+</TABLE>
+<SCRIPT>startclock()</SCRIPT>
+<IMG SRC="images/cblue.jpg" width="1" height="1">
+<IMG SRC="images/cblanco.jpg" width="1" height="1">
+</BODY>
+</HTML>

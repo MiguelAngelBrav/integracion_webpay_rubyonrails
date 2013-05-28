@@ -1,0 +1,15 @@
+Directorio Template
+===================
+
+Este directorio contiene la página html de reintento denominada
+por ejemplo:
+
+reintento.html
+
+
+Pagina de Reintento
+===================
+
+En este directorio se debe crear una página de reintento. Esta página
+se invoca cuando existe un problema con los pasos de parámetros en
+WebPay.
