@@ -7,14 +7,14 @@ class WebpayController < ApplicationController
 	end
 
 	def success
-		puts "\n***** success-env: #{env} *****\n"	
+		puts "\n***** success-request: #{request} *****\n"	
 	end
 
 	def failure
-		puts "\n***** failure-env: #{env} *****\n"	
+		puts "\n***** failure-request: #{request} *****\n"	
 	end
 
 	def check	
-		puts "\n***** check-env: #{env} *****\n"	
+		puts "\n***** check-request: #{request} *****\n"	
 	end
 end
