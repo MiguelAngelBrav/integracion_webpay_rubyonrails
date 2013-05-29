@@ -1,5 +1,5 @@
 IDCOMERCIO = 597026007976
-MEDCOM = 2
+MEDCOM = 1
 TBK_KEY_ID = 101
 PARAMVERIFCOM = 1
 URLCGICOM = http://cert.multipay.cl/wp_bp_resultado

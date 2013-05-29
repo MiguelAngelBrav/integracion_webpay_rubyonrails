@@ -1,5 +1,7 @@
 class WebpayController < ApplicationController
-
+	
+	 protect_from_forgery :except => [:success, :index, :failure, :check]
+	
 	def index
 		require 'date'
 		@oc = "OC_" + Time.now.strftime("%Y%m%d%H%M%S")

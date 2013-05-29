@@ -1,5 +1,4 @@
-GLEVEL     = 7
- 
+GLEVEL = 7
 // niveles soportados  LOGINFO  1
 //                     LOGERROR 2 
 //                     LOGFATAL 4
