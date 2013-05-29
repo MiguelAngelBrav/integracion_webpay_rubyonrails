@@ -7,14 +7,14 @@ class WebpayController < ApplicationController
 	end
 
 	def success
-		puts "\n***** success-request: #{request} *****\n"	
+		Rails.logger.debug "\n***** success-request: #{request} *****\n"	
 	end
 
 	def failure
-		puts "\n***** failure-request: #{request} *****\n"	
+		Rails.logger.debug "\n***** failure-request: #{request} *****\n"	
 	end
 
 	def check	
-		puts "\n***** check-request: #{request} *****\n"	
+		Rails.logger.debug "\n***** check-request: #{request} *****\n"	
 	end
 end
