@@ -1,30 +1,27 @@
 = Hola!
-
 Este proyecto fue creado para ayudar a los desarrolladores a integrar WebPay en una aplicación RubyOnRails
 
 == Antes de comenzar
-
-Este proyecto no tiene funciona con ninguna gema extra, solo fue creado con las gemas por defecto de una aplicación Rails nativa
-No toda el configuración necesaria es de la aplicación Rails, tambien es necesario configurar un virtual host, en el caso de esta aplicación, se hizo con apache
+Este proyecto no funciona con ninguna gema extra, solo fue creado con las gemas por defecto de una aplicación Rails nativa
+No toda el configuración necesaria es de la aplicación Rails, también es necesario configurar un virtual host. En el caso de esta aplicación, se hizo con apache
 
 == Configuración del proyecto
-
 === Subir el KCC al servidor
-Desde Transbank te envian el kit de webpay (KCC) en un archivo ZIP, sube este archivo al servidor. Posteriormente descomprimelo en la carpeta de destino
+Desde Transbank te envían el kit de webpay (KCC) en un archivo ZIP, sube este archivo al servidor. Posteriormente descomprimelo en la carpeta de destino
 En esta aplicación, el kit se configuro en:
        integracion_webpay_rubyonrails/vendor/webpay
 
 Dentro del ZIP vienen varios archivos innecesarios para el servidor como archivos pdf, manuales y otros. Borralos y solo deja lo necesario
 
-Al subir el ZIP y descomprimir dentro del servidor de destino, te ahora muchos dolores de cabeza por la codificación de los archivos. Si usas un 
-cliente FTP, asegurate que los archivos suban al servidor en formato binario
+Al subir el ZIP y descomprimir dentro del servidor de destino, te ahorraras muchos dolores de cabeza por la codificación de los archivos. Si usas un 
+cliente FTP, asegúrate que los archivos suban al servidor en formato binario
 
 === Permisos
-Cambia los permisos de los archivos CGI y otros, de acuerdo a lo indicado en el manual de integracion. Asegurate que el usuario que ejecuta apache, tenga el mismo nivel depermisos
-que el usuario propietario de los archivos de KCC
+Cambia los permisos de los archivos CGI y otros, de acuerdo a lo indicado en el manual de integracion. Asegúrate que el usuario que ejecuta apache, tenga el mismo nivel de permisos
+que el usuario propietario del KCC
 
 === tbk_config.dat
-Luego edita el archivo "tbk_config.dat" con los parametros de tu comercio. En este proyecto se configuro de la siguiente manera
+Luego edita el archivo "tbk_config.dat" con los parámetros de tu comercio. En este proyecto se configuro de la siguiente forma
        IDCOMERCIO = 597026007976
        MEDCOM = 1
        TBK_KEY_ID = 101
@@ -34,7 +31,7 @@ Luego edita el archivo "tbk_config.dat" con los parametros de tu comercio. En es
        PORTCOM = 80
        WHITELISTCOM = ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789./:=&?_
        HOST = (agregar ip externa de mi.sitio.cl)
-       WPORT = 3000
+       WPORT = 8080
        URLCGITRA = /filtroUnificado/bp_revision.cgi
        URLCGIMEDTRA = /filtroUnificado/bp_validacion.cgi
        SERVERTRA = https://certificacion.webpay.cl
@@ -42,20 +39,20 @@ Luego edita el archivo "tbk_config.dat" con los parametros de tu comercio. En es
        PREFIJO_CONF_TR = HTML_
        HTML_TR_NORMAL = http://mi.sitio.cl/check.html
 
-Cuando guardes este proyecto, asegurate que el formato del archivo "tbk_config.dat" sea ASCII y no UTF-8, y ademas que los saltos de carro sean en formato Unix "\n", y no en formato Windows "\r\n"
+Cuando guardes este proyecto, asegúrate que el formato del archivo "tbk_config.dat" sea ASCII y no UTF-8, y además que los saltos de carro sean en formato Unix "\n", y no en formato Windows "\r\n"
 
-Si los saltos de carro ó la codificación de este archivo no es la correcta, se podria producir una redirección indeseada. Eso me ocurrio en ete proyecto cuando el KCC llegaba 
+Si los saltos de carro ó la codificación de este archivo no son correctos, se podría producir una redirección indeseada. Eso me ocurrió en este proyecto cuando el KCC llegaba 
 a:
        https://certificacion.webpay.cl:6443/filtroUnificado/bp_revision.cgi
 
-Redireccionaba luego a:
+Para luego redireccionar a:
        https://certificacion.webpay.cl:6443//bp_revision.cgi
        
-Provocando un error 404, porque esa URL no te lleva a ninguna parte
+Provocando un error 404, porque la URL final no te lleva a ninguna parte
 
 === Configuración del virtual host apache
-La siguiente es una configuracion de ejemplo del virtual host
-       <VirtualHost *:8080>
+La siguiente es una configuración de ejemplo del virtual host
+       <VirtualHost *:80>
               DocumentRoot "/home/usuario/workspace/integracion_webpay_rubyonrails/public"
               RailsEnv development
               PassengerMaxPoolSize 3
@@ -68,13 +65,13 @@ La siguiente es una configuracion de ejemplo del virtual host
               </Directory>
        </VirtualHost>
        
-El "DocumentRoot" apunta a la ruta publica de tu aplicacion rails:
+El "DocumentRoot" apunta a la ruta publica de tu aplicación rails:
        DocumentRoot "/home/usuario/workspace/integracion_webpay_rubyonrails/public"
        
-El "ScriptAlias" es para crear un directorio virtual. Este apunta al directorio rails donde se encuentra el KCC:
+El "ScriptAlias" es para crear un directorio virtual. Este apunta al directorio Rails donde se encuentra el KCC:
        ScriptAlias /cgi-bin/ /home/usuario/workspace/integracion_webpay_rubyonrails/vendor/webpay/
 
-Las siguientes dos lineas permiten que tu virtual host tenga los permisos para ejecutar archivos CGI:
+Las siguientes dos líneas permiten que tu virtual host tenga los permisos para ejecutar archivos CGI:
        Options +ExecCGI
        AddHandler cgi-script .cgi
 
@@ -89,3 +86,12 @@ No olvides configurar tu apache, para que escuche el puerto del virtual host. En
        #
        Listen 80
        Listen 8080
+       
+== Autor
+Esta aplicación fue desarrollada por Miguel Angel Bravo (@MiguelAngelBrav), y Nicolas Mery (@NicolasMery)
+
+== Licencia
+Esta aplicación puede ser usada por cualquier persona y/ó empresa para fines personales, comerciales ó lo que estime conveniente
+siempre y cuando respete las normas y leyes vigentes en Chile.
+
+
