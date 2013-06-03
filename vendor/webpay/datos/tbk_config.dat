@@ -2,15 +2,16 @@ IDCOMERCIO = 597026007976
 MEDCOM = 1
 TBK_KEY_ID = 101
 PARAMVERIFCOM = 1
-URLCGICOM = http://cert.multipay.cl/wp_bp_resultado
+URLCGICOM = http://cert.multipay.cl/wp/cgi-bin/tbk_bp_resultado.cgi
 SERVERCOM = 146.82.89.139
 PORTCOM = 80
 WHITELISTCOM = ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789./:=&?_
-HOST = 146.82.89.139
-WPORT = 80
+HOST = 10.170.1.12
+WPORT = 3000
 URLCGITRA = /filtroUnificado/bp_revision.cgi
 URLCGIMEDTRA = /filtroUnificado/bp_validacion.cgi
 SERVERTRA = https://certificacion.webpay.cl
 PORTTRA = 6443
 PREFIJO_CONF_TR = HTML_
-HTML_TR_NORMAL = http://cert.multipay.cl/wp_webpay_check
+HTML_TR_NORMAL = http://10.170.1.12:3000/check
+

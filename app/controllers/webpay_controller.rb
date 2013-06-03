@@ -18,5 +18,6 @@ class WebpayController < ApplicationController
 
 	def check	
 		Rails.logger.debug "\n***** check-request: #{request.inspect} *****\n"	
+                render :text => 'ACEPTADO', :layout => false
 	end
 end
