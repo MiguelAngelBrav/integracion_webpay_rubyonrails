@@ -3,7 +3,7 @@ Este proyecto fue creado para ayudar a los desarrolladores a integrar WebPay en 
 
 == Antes de comenzar
 Este proyecto no funciona con ninguna gema extra, solo fue creado con las gemas por defecto de una aplicación Rails nativa
-No toda el configuración necesaria es de la aplicación Rails, también es necesario configurar un virtual host. En el caso de esta aplicación, se hizo con apache
+No toda la configuración necesaria es de la aplicación Rails, también es necesario configurar un virtual host. En el caso de esta aplicación, se hizo con apache
 
 == Configuración del proyecto
 === Subir el KCC al servidor
