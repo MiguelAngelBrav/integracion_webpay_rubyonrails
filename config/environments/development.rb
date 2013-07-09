@@ -35,5 +35,8 @@ IntegracionWebpayRubyonrails::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.name_webserver_bridge = "http://cert.multipay.cl/wpi/"
+  # servidor de puente que ejecuta los cgi
+  config.url_webserver_bridge = "http://cert.multipay.cl/wpi/"
+  config.host_webserver_bridge = "cert.multipay.cl"
+
 end

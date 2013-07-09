@@ -21,8 +21,8 @@ class WebpayController < ApplicationController
 
 	def check
     # parametros de la peticion
-    host =  Rails.application.config.name_webserver_bridge
-    request_params = "cgi-bin/tbk_check_mac.cgi"
+    host =  Rails.application.config.host_webserver_bridge
+    request_params = "/wpi/cgi-bin/tbk_check_mac.cgi"
 
     Rails.logger.debug "<<<<< request: #{host}#{request_params}"
 
