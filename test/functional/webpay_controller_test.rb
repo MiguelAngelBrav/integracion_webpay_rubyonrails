@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe 'WebpayControllerTest' do
+describe WebpayControllerTest do
   it "check_mac" do
     post :check
 
