@@ -19,10 +19,10 @@
 <TABLE BORDER=0 ALIGN="CENTER"> <TR>
 <TD ALIGN="CENTER"> <BR>
 <INPUT TYPE="HIDDEN" NAME="TBK_URL_EXITO" SIZE=”40”
-VALUE="<%= Rails.config.name_webserver_bridge + 'success' %>" SIZE="50"> <BR> </TD>
+VALUE="<%= Rails.application.config.name_webserver_bridge + 'success' %>" SIZE="50"> <BR> </TD>
 <TD ALIGN="CENTER"> <BR>
 <INPUT TYPE="HIDDEN" NAME="TBK_URL_FRACASO" SIZE=40
-VALUE="<%= Rails.config.name_webserver_bridge + 'failure' %>" SIZE=”50”> <BR> </TD>
+VALUE="<%= Rails.application.config.name_webserver_bridge + 'failure' %>" SIZE=”50”> <BR> </TD>
 </TR> </TABLE>
 <TABLE BORDER="0" ALIGN="CENTER"> <TR> <TD ALIGN="CENTER"> <BR>
 <INPUT TYPE="SUBMIT" VALUE="PAGAR CON TARJETA DE CRÉDITO" SIZE=”20”> </TD>
