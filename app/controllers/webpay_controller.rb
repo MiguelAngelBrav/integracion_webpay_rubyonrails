@@ -1,3 +1,6 @@
+require 'net/http'
+require 'cgi'
+
 class WebpayController < ApplicationController
 	
 	protect_from_forgery :except => [:success, :index, :failure, :check]
@@ -17,17 +20,31 @@ class WebpayController < ApplicationController
 	end
 
 	def check
-		Rails.logger.debug "\n***** check-request: #{request.inspect} *****\n"	
-		render :text => 'ACEPTADO', :layout => false
-	end
+    # parametros de la peticion
+    host       =  root_path
+    request_params = "/cgi-bin/tbk_check_mac.cgi"
 
-	def root_path
-	  Rails.root.join("vendor", "webpay").to_s
-	end
+    Rails.logger.debug "<<<<< request: #{host}#{request_params}"
 
-	def payment_cgi_path
-	  root_path + '/tbk_check_mac.cgi'
-	end
+    # se arma la peticion al server remoto (que es asi mismo)
+    response = Net::HTTP.start(host) do |http|
+      request            = Net::HTTP::Get.new("#{request_params}")
+      request["User-Agent"]      = URI.escape(request['HTTP_USER_AGENT'])
+      request["Accept"]        = "*/*"
+      request["Accept-Encoding"] = "gzip, deflate"
+
+      http.request(request)
+    end
+
+    # se carga la respueta en body
+    body = response.body
+
+    Rails.logger.debug "<<<<< body: #{body}"
+
+    Rails.logger.debug "\n***** check-request: #{request.inspect} *****\n"	
+    render :text => 'ACEPTADO', :layout => false
+  end
+
 
   private
 
