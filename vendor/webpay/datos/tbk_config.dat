@@ -2,7 +2,7 @@ IDCOMERCIO = 597026007976
 MEDCOM = 1
 TBK_KEY_ID = 101
 PARAMVERIFCOM = 1
-URLCGICOM = http://cert.multipay.cl/wp/cgi-bin/tbk_bp_resultado.cgi
+URLCGICOM = http://cert.multipay.cl/wpi/cgi-bin/tbk_bp_resultado.cgi
 SERVERCOM = 146.82.89.139
 PORTCOM = 80
 WHITELISTCOM = ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789./:=&?_
