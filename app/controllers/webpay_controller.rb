@@ -12,11 +12,11 @@ class WebpayController < ApplicationController
 	end
 
 	def success
-		Rails.logger.debug "\n***** success-request: #{request.inspect} *****\n"	
+		Rails.logger.debug "\n<<<<< success-request \n" 
 	end
 
 	def failure
-		Rails.logger.debug "\n***** failure-request: #{request.inspect} *****\n"	
+		Rails.logger.debug "\n<<<<< failure-request \n" 
 	end
 
 	def check
@@ -44,7 +44,7 @@ class WebpayController < ApplicationController
 
     Rails.logger.debug "<<<<< body: #{body}"
 
-    Rails.logger.debug "\n***** check-request: #{request.inspect} *****\n"	
+    Rails.logger.debug "\n<<<<< check-request \n"	
     render :text => 'ACEPTADO', :layout => false
   end
 
