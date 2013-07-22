@@ -24,7 +24,7 @@ class WebpayController < ApplicationController
     Rails.logger.debug "<<<<< env: #{ENV.inspect}"
     Rails.logger.debug "<<<<< check_cgi_path: #{check_cgi_path}"
   
-    result = ejecuta(ENV, check_cgi_path)
+    result = exec_cgi(ENV, check_cgi_path)
 
     Rails.logger.debug "<<<<< result: #{result}"
 
@@ -35,9 +35,7 @@ class WebpayController < ApplicationController
   protected
 
   # Extracted from rack-legacy
-  def ejecuta(env,cgi_path)
-    # raise 'Method not allowed' unless env['REQUEST_METHOD'] == 'POST'
-    
+  def exec_cgi(env,cgi_path)
     status = 200
     headers = {}
     body = ''
@@ -46,10 +44,10 @@ class WebpayController < ApplicationController
     IO.popen('-', 'r+') do |io|
       if io.nil?  # Child
         $stderr.reopen stderr.path
-        ENV['DOCUMENT_ROOT'] = root_path
+        ENV['DOCUMENT_ROOT'] = public_dir
+        ENV['SERVER_SOFTWARE'] = 'Rack Legacy'
         env.each {|k, v| ENV[k] = v if v.respond_to? :to_str}
-
-        exec ENV, cgi_path
+        exec *path
       else        # Parent
         io.write(env['rack.input'].read) if env['rack.input']
         io.close_write
@@ -68,7 +66,9 @@ class WebpayController < ApplicationController
         stderr = stderr.read
         Process.wait
         unless $?.exitstatus == 0
-          raise CGIExecutionError
+          status = 500
+          body = ErrorPage.new(env, headers, body, stderr).to_s
+          headers = {'Content-Type' => 'text/html'}
         end
       end
     end
