@@ -44,7 +44,7 @@ class WebpayController < ApplicationController
     IO.popen('-', 'r+') do |io|
       if io.nil?  # Child
         $stderr.reopen stderr.path
-        ENV['DOCUMENT_ROOT'] = public_dir
+        ENV['DOCUMENT_ROOT'] = root_path
         ENV['SERVER_SOFTWARE'] = 'Rack Legacy'
         env.each {|k, v| ENV[k] = v if v.respond_to? :to_str}
         exec *path
