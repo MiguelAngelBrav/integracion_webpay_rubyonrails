@@ -4,6 +4,10 @@ require 'cgi'
 class WebpayController < ApplicationController
 	
 	protect_from_forgery :except => [:success, :index, :failure, :check]
+
+  def initialize(app)
+    @app = app
+  end
 	
 	def index
 		require 'date'
