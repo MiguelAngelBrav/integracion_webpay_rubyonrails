@@ -21,26 +21,10 @@ class WebpayController < ApplicationController
 
 	def check
 
-    user_agent     = "Mozilla/5.0 (Windows NT 6.1; rv:15.0) Gecko/20120716 Firefox/15.0a2"
-
-    # parametros de la peticion
-    host =  Rails.application.config.host_webserver_bridge
-    request_params = "/wpi/cgi-bin/tbk_check_mac.cgi"
-
-    Rails.logger.debug "<<<<< request: #{host}#{request_params}"
-
-    # se arma la peticion al server remoto (que es asi mismo)
-    response = Net::HTTP.start(host) do |http|
-      request               = Net::HTTP::Get.new("#{request_params}")
-      request["User-Agent"] = URI.escape(user_agent)
-      request["Accept"]     = "*/*"
-      request["Accept-Encoding"] = "gzip, deflate"
-
-      http.request(request)
-    end
+    result = system("./" + Rails.root.join("vendor", "webpay").to_s + "/tbk_check_mac.cgi")
 
     # se carga la respueta en body
-    body = response.body
+    body = result
 
     Rails.logger.debug "<<<<< body: #{body}"
 
