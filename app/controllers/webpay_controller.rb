@@ -20,6 +20,9 @@ class WebpayController < ApplicationController
 	end
 
 	def check(env)
+
+    Rails.logger.debug "<<<<< env: #{env}"
+    Rails.logger.debug "<<<<< check_cgi_path: #{check_cgi_path}"
   
     result = process(env, check_cgi_path)
 
