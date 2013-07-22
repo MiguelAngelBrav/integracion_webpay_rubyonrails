@@ -21,7 +21,7 @@ class WebpayController < ApplicationController
 
 	def check
 
-    result = system("./" + Rails.root.join("vendor", "webpay").to_s + "/tbk_check_mac.cgi")
+    result = system("." + Rails.root.join("vendor", "webpay").to_s + "/tbk_check_mac.cgi")
 
     # se carga la respueta en body
     body = result
