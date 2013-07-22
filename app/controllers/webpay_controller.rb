@@ -19,12 +19,12 @@ class WebpayController < ApplicationController
 		Rails.logger.debug "\n<<<<< failure-request \n" 
 	end
 
-	def check(env)
+	def check
 
-    Rails.logger.debug "<<<<< env: #{env}"
+    Rails.logger.debug "<<<<< env: #{ENV.inspect}"
     Rails.logger.debug "<<<<< check_cgi_path: #{check_cgi_path}"
   
-    result = ejecuta(env, check_cgi_path)
+    result = ejecuta(ENV, check_cgi_path)
 
     Rails.logger.debug "<<<<< result: #{result}"
 
