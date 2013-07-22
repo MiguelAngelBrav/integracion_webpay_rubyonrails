@@ -35,7 +35,7 @@ class WebpayController < ApplicationController
   protected
 
   # Extracted from rack-legacy
-  def exec_cgi(env,cgi_path)
+  def exec_cgi(env, *path)
     status = 200
     headers = {}
     body = ''
