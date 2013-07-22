@@ -26,6 +26,8 @@ class WebpayController < ApplicationController
     # se carga la respueta en body
     body = result
 
+    Rails.logger.debug "<<<<< request-to: ./" + Rails.root.join("vendor", "webpay").to_s + "/tbk_check_mac.cgi"
+
     Rails.logger.debug "<<<<< body: #{body}"
 
     Rails.logger.debug "\n<<<<< check-request \n"	
