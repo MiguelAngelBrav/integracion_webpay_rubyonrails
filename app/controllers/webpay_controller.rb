@@ -24,7 +24,7 @@ class WebpayController < ApplicationController
     Rails.logger.debug "<<<<< env: #{env}"
     Rails.logger.debug "<<<<< check_cgi_path: #{check_cgi_path}"
   
-    result = process(env, check_cgi_path)
+    result = ejecuta(env, check_cgi_path)
 
     Rails.logger.debug "<<<<< result: #{result}"
 
@@ -35,7 +35,7 @@ class WebpayController < ApplicationController
   protected
 
   # Extracted from rack-legacy
-  def process(env,cgi_path)
+  def ejecuta(env,cgi_path)
     # raise 'Method not allowed' unless env['REQUEST_METHOD'] == 'POST'
     
     status = 200
