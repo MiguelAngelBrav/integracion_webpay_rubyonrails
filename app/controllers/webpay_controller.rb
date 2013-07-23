@@ -6,7 +6,7 @@ class WebpayController < ApplicationController
 	protect_from_forgery :except => [:success, :index, :failure, :check]
 
   def initialize
-
+    
   end
 	
 	def index
@@ -51,7 +51,7 @@ class WebpayController < ApplicationController
         ENV['DOCUMENT_ROOT'] = root_path
         ENV['SERVER_SOFTWARE'] = 'Rack Legacy'
         env.each {|k, v| ENV[k] = v if v.respond_to? :to_str}
-        exec ENV, *path
+        exec exec ENV, *path
       else        # Parent
         io.write(env['rack.input'].read) if env['rack.input']
         io.close_write
@@ -86,7 +86,7 @@ class WebpayController < ApplicationController
   end
   
   def check_cgi_path
-    root_path + '/tbk_bp_resultado.cgi'
+    root_path + '/tbk_check_mac.cgi'
   end
 
 
