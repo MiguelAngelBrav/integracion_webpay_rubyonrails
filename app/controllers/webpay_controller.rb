@@ -86,7 +86,7 @@ class WebpayController < ApplicationController
   end
   
   def check_cgi_path
-    root_path + '/tbk_check_mac.cgi'
+    root_path + '/tbk_bp_resultado.cgi'
   end
 
 
