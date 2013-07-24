@@ -2,6 +2,8 @@ require 'net/http'
 require 'cgi'
 
 class WebpayController < ApplicationController
+
+  VALID_MAC_RESPONSE = 'CORRECTO'
 	
 	protect_from_forgery :except => [:success, :index, :failure, :check]
 
