@@ -47,7 +47,7 @@ class WebpayController < ApplicationController
     file.write raw
     file.close
     executable = check_cgi_path
-    @valid_mac = ('#{executable} #{file.path}'.strip == VALID_MAC_RESPONSE)
+    @valid_mac = '#{executable} #{file.path}'.strip
     file.unlink
     
     @valid_mac
