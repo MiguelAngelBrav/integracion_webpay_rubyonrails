@@ -31,6 +31,9 @@ class WebpayController < ApplicationController
     Rails.logger.debug "<<<<< comienza parseo"
     
     exe = "#{check_cgi_path} #{temp_file_param(request.raw_post)}"
+
+    Rails.logger.debug "<<<<< exe: #{exe}"
+
     result = valida_mac(ENV, exe)
     
     Rails.logger.debug "<<<<< result: #{result}"
@@ -45,11 +48,10 @@ class WebpayController < ApplicationController
     file = Tempfile.new 'webpay-mac-check'
     file.write raw
     file.close
-    path_file = file.path
-        
-    Rails.logger.debug "<<<<< path_file: #{path_file}"
+           
+    Rails.logger.debug "<<<<< path_file: #{file.path}"
 
-    path_file
+    file.path
   end
 
   def valida_mac(env, exe)
