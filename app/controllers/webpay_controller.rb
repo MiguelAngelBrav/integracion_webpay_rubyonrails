@@ -44,12 +44,11 @@ class WebpayController < ApplicationController
     headers = {}
     body = ''
 
-    file = Tempfile.new 'webpay-mac-check'
+    file = Tempfile.new('webpay-mac-check', "#{root_path}/log/tmp/")
     file.write raw
     exe = "#{check_cgi_path} #{raw}"
-    file.close
 
-    stderr = Tempfile.new 'webpay-cgi-stderr'
+    stderr = Tempfile.new('webpay-cgi-stderr', "#{root_path}/log/tmp/")
     IO.popen('-', 'r+') do |io|
       if io.nil?  # Child
         $stderr.reopen stderr.path
@@ -82,6 +81,7 @@ class WebpayController < ApplicationController
       end
     end
 
+    file.close
     file.unlink
 
     status = headers.delete('Status').to_i if headers.has_key? 'Status'
