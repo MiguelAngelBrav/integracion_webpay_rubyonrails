@@ -45,7 +45,7 @@ class WebpayController < ApplicationController
     body = ''
 
     file = Tempfile.new('webpay-mac-check', "#{root_path}/log/tmp/")
-    file.write raw
+    file.write CGI.unescape(raw)
     file.rewind
     exe = "#{check_cgi_path} #{file.path}"
 
