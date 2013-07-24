@@ -30,7 +30,7 @@ class WebpayController < ApplicationController
 
     Rails.logger.debug "<<<<< comienza parseo"
     
-    result = valida_mac(ENV, check_cgi_path, temp_file_param)
+    result = valida_mac(ENV, check_cgi_path, temp_file_param(request.raw_post))
     
     Rails.logger.debug "<<<<< result: #{result}"
 
