@@ -46,7 +46,7 @@ class WebpayController < ApplicationController
 
     file = Tempfile.new 'webpay-mac-check'
     file.write raw
-    exe = "#{check_cgi_path} #{file.path}"
+    exe = "#{check_cgi_path} #{raw}"
     file.close
 
     stderr = Tempfile.new 'webpay-cgi-stderr'
