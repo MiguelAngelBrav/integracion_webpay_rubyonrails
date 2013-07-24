@@ -44,7 +44,7 @@ class WebpayController < ApplicationController
     headers = {}
     body = ''
 
-    file = Tempfile.new 'webpay-mac-check'
+    file = Tempfile.new ('webpay-mac-check', :encoding => 'ascii-8bit')
     file.write raw
     exe = "#{check_cgi_path} #{file.path}"
 
