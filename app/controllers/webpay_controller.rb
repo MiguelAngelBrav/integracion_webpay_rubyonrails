@@ -25,61 +25,43 @@ class WebpayController < ApplicationController
 
 	def check
 
-    Rails.logger.debug "<<<<< env: #{ENV.inspect}"
-    Rails.logger.debug "<<<<< check_cgi_path: #{check_cgi_path}"
-  
-    result = exec_cgi(ENV, check_cgi_path)
+    Rails.logger.debug "<<<<< comienza parseo"
+    
+    parse(ENV)
+    
+    Rails.logger.debug "<<<<< parametros parseados: #{raw}"
 
-    Rails.logger.debug "<<<<< result: #{result}"
+    Rails.logger.debug "<<<<< check-request"	
 
-    Rails.logger.debug "\n<<<<< check-request \n"	
+
     render :text => 'ACEPTADO', :layout => false
   end
 
-  protected
+  private
 
-  # Extracted from rack-legacy
-  def exec_cgi(env, *path)
-    status = 200
-    headers = {}
-    body = ''
-
-    stderr = Tempfile.new 'webpay-cgi-stderr'
-    IO.popen('-', 'r+') do |io|
-      if io.nil?  # Child
-        $stderr.reopen stderr.path
-        ENV['DOCUMENT_ROOT'] = root_path
-        ENV['SERVER_SOFTWARE'] = 'Rack Legacy'
-        env.each {|k, v| ENV[k] = v if v.respond_to? :to_str}
-        exec exec ENV, *path
-      else        # Parent
-        io.write(env['rack.input'].read) if env['rack.input']
-        io.close_write
-        until io.eof? || (line = io.readline.chomp) == ''
-          if line =~ /\s*\:\s*/
-            key, value = line.split(/\s*\:\s*/, 2)
-            if headers.has_key? key
-              headers[key] += "\n" + value
-            else
-              headers[key] = value
-            end
-          end
-        end
-        body = io.read
-        stderr.rewind
-        stderr = stderr.read
-        Process.wait
-        unless $?.exitstatus == 0
-          status = 500
-          body = ErrorPage.new(env, headers, body, stderr).to_s
-          headers = {'Content-Type' => 'text/html'}
-        end
-      end
+  # Take the posted data and move the relevant data into a hash
+  def parse(post)
+    @raw = post
+    for line in post.split('&')
+      key, value = *line.scan( %r{^(\w+)\=(.*)$} ).flatten
+      params[key] = value
     end
-
-    status = headers.delete('Status').to_i if headers.has_key? 'Status'
-    [status, headers, [body]]
   end
+  
+  # def valid_mac
+  #   if @valid_mac.nil?
+  #     file = Tempfile.new 'webpay-mac-check'
+  #     file.write raw
+  #     file.close
+  #     executable = Webpay.cgis_root + '/tbk_check_mac.cgi'
+  #     @valid_mac = ( `#{executable} #{file.path}`.strip == VALID_MAC_RESPONSE )
+  #     file.unlink
+      
+  #     fail! 'Mac Invalido' unless @valid_mac
+  #   end
+    
+  #   @valid_mac
+  # end
 
   def root_path
     Rails.root.join("vendor", "webpay").to_s
