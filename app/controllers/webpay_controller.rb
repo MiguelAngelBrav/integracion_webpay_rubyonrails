@@ -81,8 +81,8 @@ class WebpayController < ApplicationController
       end
     end
 
-    file.close
-    file.unlink
+    # file.close
+    # file.unlink
 
     status = headers.delete('Status').to_i if headers.has_key? 'Status'
     [status, headers, [body]]
