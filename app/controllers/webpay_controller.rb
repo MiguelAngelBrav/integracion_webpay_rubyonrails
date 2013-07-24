@@ -78,14 +78,15 @@ class WebpayController < ApplicationController
         Process.wait
         unless $?.exitstatus == 0
           status = 500
-          body = ErrorPage.new(env, headers, body, stderr).to_s
           headers = {'Content-Type' => 'text/html'}
+          body = ErrorPage.new(env, headers, body, stderr).to_s
+          
         end
       end
     end
 
-    # file.close
-    # file.unlink
+    file.close
+    file.unlink
 
     status = headers.delete('Status').to_i if headers.has_key? 'Status'
     [status, headers, [body]]
