@@ -30,11 +30,7 @@ class WebpayController < ApplicationController
 
     Rails.logger.debug "<<<<< comienza parseo"
     
-    exe = "#{check_cgi_path} #{temp_file_param(request.raw_post)}"
-
-    Rails.logger.debug "<<<<< exe: #{exe}"
-
-    result = valida_mac(ENV, exe)
+    result = valida_mac(ENV, request.raw_post)
     
     Rails.logger.debug "<<<<< result: #{result}"
 
@@ -43,21 +39,14 @@ class WebpayController < ApplicationController
 
   private
   
-  # crea archivo temporal y devuelve path
-  def temp_file_param(raw)  
-    file = Tempfile.new 'webpay-mac-check'
-    file.write raw
-    file.close
-           
-    Rails.logger.debug "<<<<< path_file: #{file.path}"
-
-    file.path
-  end
-
-  def valida_mac(env, exe)
+   def valida_mac(env, raw)
     status = 200
     headers = {}
     body = ''
+
+    file = Tempfile.new 'webpay-mac-check'
+    file.write raw
+    exe = "#{check_cgi_path} #{file.path}"
 
     stderr = Tempfile.new 'webpay-cgi-stderr'
     IO.popen('-', 'r+') do |io|
@@ -91,6 +80,9 @@ class WebpayController < ApplicationController
         end
       end
     end
+
+    file.close
+    file.unlink
 
     status = headers.delete('Status').to_i if headers.has_key? 'Status'
     [status, headers, [body]]
