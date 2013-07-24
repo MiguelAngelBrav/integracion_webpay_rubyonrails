@@ -44,8 +44,9 @@ class WebpayController < ApplicationController
     headers = {}
     body = ''
 
-    file = Tempfile.new ('webpay-mac-check', :encoding => 'ascii-8bit')
+    file = Tempfile.new 'webpay-mac-check'
     file.write raw
+    file.close
     exe = "#{check_cgi_path} #{file.path}"
 
     stderr = Tempfile.new 'webpay-cgi-stderr'
@@ -81,7 +82,6 @@ class WebpayController < ApplicationController
       end
     end
 
-    file.close
     file.unlink
 
     status = headers.delete('Status').to_i if headers.has_key? 'Status'
