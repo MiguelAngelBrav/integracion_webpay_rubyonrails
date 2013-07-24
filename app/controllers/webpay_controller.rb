@@ -56,9 +56,9 @@ class WebpayController < ApplicationController
       if io.nil?  # Child
         $stderr.reopen stderr.path
         ENV['DOCUMENT_ROOT'] = root_path
-        ENV['SERVER_SOFTWARE'] = 'Rack Legacy'
         env.each {|k, v| ENV[k] = v if v.respond_to? :to_str}
-        exec exe
+        
+        exec ENV, exe
       else        # Parent
         io.write(env['rack.input'].read) if env['rack.input']
         io.close_write
@@ -75,12 +75,14 @@ class WebpayController < ApplicationController
         body = io.read
         stderr.rewind
         stderr = stderr.read
+
+        Rails.logger.debug "<<<<< stderr: #{stderr}"
+
         Process.wait
         unless $?.exitstatus == 0
           status = 500
+          body = "INVALIDO"
           headers = {'Content-Type' => 'text/html'}
-          body = ErrorPage.new(env, headers, body, stderr).to_s
-          
         end
       end
     end
