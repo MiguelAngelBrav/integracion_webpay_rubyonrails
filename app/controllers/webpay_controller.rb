@@ -30,7 +30,8 @@ class WebpayController < ApplicationController
 
     Rails.logger.debug "<<<<< comienza parseo"
     
-    result = valida_mac(ENV, check_cgi_path, temp_file_param(request.raw_post))
+    exe = "#{check_cgi_path} #{temp_file_param(request.raw_post)}"
+    result = valida_mac(ENV, exe)
     
     Rails.logger.debug "<<<<< result: #{result}"
 
@@ -39,7 +40,7 @@ class WebpayController < ApplicationController
 
   private
   
-  # crea archivo temporal y guarda path
+  # crea archivo temporal y devuelve path
   def temp_file_param(raw)  
     file = Tempfile.new 'webpay-mac-check'
     file.write raw
@@ -52,7 +53,7 @@ class WebpayController < ApplicationController
     path_file
   end
 
-  def valida_mac(env, *path, path_param)
+  def valida_mac(env, exe)
     status = 200
     headers = {}
     body = ''
@@ -64,7 +65,7 @@ class WebpayController < ApplicationController
         ENV['DOCUMENT_ROOT'] = root_path
         ENV['SERVER_SOFTWARE'] = 'Rack Legacy'
         env.each {|k, v| ENV[k] = v if v.respond_to? :to_str}
-        exec *path + " " + path_param
+        exec exe
       else        # Parent
         io.write(env['rack.input'].read) if env['rack.input']
         io.close_write
