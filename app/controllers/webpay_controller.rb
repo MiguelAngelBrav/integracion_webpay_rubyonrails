@@ -46,7 +46,6 @@ class WebpayController < ApplicationController
     file.write raw
     file.close
     path_file = file.path
-    file.unlink
         
     Rails.logger.debug "<<<<< path_file: #{path_file}"
 
