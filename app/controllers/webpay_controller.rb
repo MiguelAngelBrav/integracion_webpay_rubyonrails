@@ -46,7 +46,7 @@ class WebpayController < ApplicationController
 
     file = Tempfile.new('webpay-mac-check', "#{root_path}/log/tmp/")
     file.write raw
-    exe = "#{check_cgi_path} #{raw}"
+    exe = "#{check_cgi_path} #{file.path}"
 
     stderr = Tempfile.new('webpay-cgi-stderr', "#{root_path}/log/tmp/")
     IO.popen('-', 'r+') do |io|
