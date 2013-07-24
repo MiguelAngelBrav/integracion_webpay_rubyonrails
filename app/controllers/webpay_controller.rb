@@ -42,16 +42,13 @@ class WebpayController < ApplicationController
   private
   
   def valid_mac(raw)
-    if @valid_mac.nil?
-      file = Tempfile.new 'webpay-mac-check'
-      file.write raw
-      file.close
-      executable = check_cgi_path
-      @valid_mac = ('#{executable} #{file.path}'.strip == VALID_MAC_RESPONSE)
-      file.unlink
-      
-      fail! 'Mac Invalido' unless @valid_mac
-    end
+  
+    file = Tempfile.new 'webpay-mac-check'
+    file.write raw
+    file.close
+    executable = check_cgi_path
+    @valid_mac = ('#{executable} #{file.path}'.strip == VALID_MAC_RESPONSE)
+    file.unlink
     
     @valid_mac
   end
