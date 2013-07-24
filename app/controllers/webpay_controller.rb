@@ -48,6 +48,8 @@ class WebpayController < ApplicationController
     file.write raw
     exe = "#{check_cgi_path} #{file.path}"
 
+    Rails.logger.debug "<<<<< file.read: #{file.read}"
+
     stderr = Tempfile.new('webpay-cgi-stderr', "#{root_path}/log/tmp/")
     IO.popen('-', 'r+') do |io|
       if io.nil?  # Child
