@@ -47,6 +47,8 @@ class WebpayController < ApplicationController
     path_file = file.path
     file.unlink
         
+    Rails.logger.debug "<<<<< path_file: #{path_file}"
+
     path_file
   end
 
