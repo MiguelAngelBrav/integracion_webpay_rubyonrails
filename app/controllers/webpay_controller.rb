@@ -27,7 +27,8 @@ class WebpayController < ApplicationController
 
     Rails.logger.debug "<<<<< comienza parseo"
     
-    parse(ENV)
+    # parse(ENV)
+    Rails.logger.debug "<<<<< request.raw_post: #{request.raw_post}"
     
     Rails.logger.debug "<<<<< parametros parseados: #{raw}"
 
