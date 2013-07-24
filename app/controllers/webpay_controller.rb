@@ -46,6 +46,7 @@ class WebpayController < ApplicationController
 
     file = Tempfile.new('webpay-mac-check', "#{root_path}/log/tmp/")
     file.write raw
+    file.close
     exe = "#{check_cgi_path} #{file.path}"
 
     Rails.logger.debug "<<<<< file.read: #{file.read}"
