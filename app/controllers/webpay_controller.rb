@@ -50,7 +50,11 @@ class WebpayController < ApplicationController
     Rails.logger.debug "<<<<< file.read: #{file.read}"
 
     stderr = Tempfile.new('webpay-cgi-stderr', "#{root_path}/log/tmp/")
-    exec exe
+    ENV['DOCUMENT_ROOT'] = root_path
+    env.each {|k, v| ENV[k] = v if v.respond_to? :to_str}
+
+    exec ENV, exe
+    
     stderr.write(env['rack.input'].read) if env['rack.input']
     stderr.rewind
     body = stderr.read
