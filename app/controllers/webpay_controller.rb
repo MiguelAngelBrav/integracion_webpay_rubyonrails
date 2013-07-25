@@ -40,7 +40,6 @@ class WebpayController < ApplicationController
   private
   
    def valida_mac(env, raw)
-    status = 200
     body = ''
 
     file = Tempfile.new('webpay-mac-check', "#{root_path}/log/tmp/")
@@ -62,8 +61,9 @@ class WebpayController < ApplicationController
         io.write(env['rack.input'].read) if env['rack.input']
         io.close_write
 
-        body = "#{io.read}"        
-        Rails.logger.debug "<<<<< body: #{body}"
+        body = "#{io.read}" 
+        io.rewind       
+        Rails.logger.debug "<<<<< body: #{io.read}"
 
         body = "#{io.read}"
         stderr.rewind
@@ -73,7 +73,6 @@ class WebpayController < ApplicationController
 
         Process.wait
         unless $?.exitstatus == 0
-          status = 500
           body = "INVALIDO"
         end
       end
@@ -82,7 +81,7 @@ class WebpayController < ApplicationController
     file.close
     file.unlink
 
-    [status, headers, [body]]
+    body
   end
 
   def root_path
