@@ -85,9 +85,7 @@ class WebpayController < ApplicationController
     end
 
     file.close
-
     file.unlink
-    stderr.unlink
 
     body
   end
