@@ -84,8 +84,11 @@ class WebpayController < ApplicationController
       end
     end
 
-    file.close!
-    stderr.close!
+    file.close
+    stderr.close
+
+    file.unlink
+    stderr.unlink
 
     body
   end
