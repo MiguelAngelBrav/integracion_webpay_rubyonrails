@@ -62,6 +62,9 @@ class WebpayController < ApplicationController
       else        # Parent
         io.write(env['rack.input'].read) if env['rack.input']
         io.close_write
+        
+        Rails.logger.debug "<<<<< io: #{io.read}"
+
         until io.eof? || (line = io.readline.chomp) == ''
           if line =~ /\s*\:\s*/
             key, value = line.split(/\s*\:\s*/, 2)
