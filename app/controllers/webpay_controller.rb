@@ -47,8 +47,6 @@ class WebpayController < ApplicationController
     file.rewind
     cgi_to_exec = "#{check_cgi_path} #{file.path}"
 
-    status = 200
-    headers = {'Content-Type' => 'text/html'}
     body = ''
 
     stderr = Tempfile.new 'webpay-cgi-stderr'
@@ -67,15 +65,12 @@ class WebpayController < ApplicationController
         stderr = stderr.read
         Process.wait
         unless $?.exitstatus == 0
-          status = 200
-          headers = {}
           body = 'INVALIDO'
         end
       end
     end
 
-    status = headers.delete('Status').to_i if headers.has_key? 'Status'
-    [status, headers, [body]]
+    body and return
   end
 
   def root_path
