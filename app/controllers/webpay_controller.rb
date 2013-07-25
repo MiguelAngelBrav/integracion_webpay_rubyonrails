@@ -64,7 +64,7 @@ class WebpayController < ApplicationController
         
         Rails.logger.debug "<<<<< io: #{io.read}"
 
-        body = io.read
+        body = "#{io.read}"
 
         Rails.logger.debug "<<<<< stderr: #{stderr}"
 
