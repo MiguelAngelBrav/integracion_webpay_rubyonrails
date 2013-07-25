@@ -13,5 +13,5 @@ URLCGIMEDTRA = /filtroUnificado/bp_validacion.cgi
 SERVERTRA = https://certificacion.webpay.cl
 PORTTRA = 6443
 PREFIJO_CONF_TR = HTML_
-HTML_TR_NORMAL = http://10.170.1.12:3001/check
+HTML_TR_NORMAL = http://10.170.1.12:3001/xt_close
 

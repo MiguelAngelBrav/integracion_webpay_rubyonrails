@@ -5,11 +5,7 @@ class WebpayController < ApplicationController
 
   VALID_MAC_RESPONSE = 'CORRECTO'
 	
-	protect_from_forgery :except => [:success, :index, :failure, :check]
-
-  def initialize
-    
-  end
+	protect_from_forgery :except => [:success, :index, :failure, :xt_close]
 	
 	def index
 		require 'date'
@@ -17,29 +13,47 @@ class WebpayController < ApplicationController
 		@mount = 10000
 	end
 
+  # transacción exitosa
 	def success
 		Rails.logger.debug "\n<<<<< success-request \n" 
 	end
 
+  # transacción fallida
 	def failure
 		Rails.logger.debug "\n<<<<< failure-request \n" 
 	end
 
+  # pagina de cierre
+	def xt_close
 
-	def check
-
-    Rails.logger.debug "<<<<< comienza parseo"
+    Rails.logger.debug "<<<<< cierre trx "
     
-    result = valida_mac(ENV, request.raw_post)
-    
+    result = validate_mac(ENV, request.raw_post)
     Rails.logger.debug "<<<<< result: #{result}"
 
-    render :text => 'ACEPTADO', :layout => false
+    if !result.include('CORRECTO')?
+      Rails.logger.debug "<<<<< trx rechazada: mac invalida "
+      render :text => 'RECHAZADO', :layout => false
+      
+    # elsif (condition_oc_status)
+    #   Rails.logger.debug "<<<<< trx rechazada: oc ya aprobada previamente "
+    #   render :text => 'RECHAZADO', :layout => false
+
+    # elsif (oc_amount)
+    #   Rails.logger.debug "<<<<< trx rechazada: monto no corresponde a la transaccion "
+    #   render :text => 'RECHAZADO', :layout => false
+
+    else
+      Rails.logger.debug "<<<<< trx rechazada: monto no corresponde a la transaccion "
+      render :text => 'ACEPTADO', :layout => false
+      
+    end
   end
 
   private
   
-  def valida_mac(env, raw)
+  # validacion de mac
+  def validate_mac(env, raw)
     body = ''
 
     file = Tempfile.new('webpay-mac-check', "#{root_path}/log/tmp/")
@@ -69,6 +83,9 @@ class WebpayController < ApplicationController
         end
       end
     end
+
+    file.close!
+    stderr.close!
 
     body
   end
