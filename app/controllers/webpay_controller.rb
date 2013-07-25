@@ -63,7 +63,7 @@ class WebpayController < ApplicationController
         io.close_write
 
         body = "#{io.read}"        
-        Rails.logger.debug "<<<<< io: #{io.read}"
+        Rails.logger.debug "<<<<< body: #{body}"
 
         body = "#{io.read}"
         stderr.rewind
