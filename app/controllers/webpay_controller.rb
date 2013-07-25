@@ -61,7 +61,8 @@ class WebpayController < ApplicationController
       else        # Parent
         io.write(env['rack.input'].read) if env['rack.input']
         io.close_write
-        
+
+        body = "#{io.read}"        
         Rails.logger.debug "<<<<< io: #{io.read}"
 
         body = "#{io.read}"
