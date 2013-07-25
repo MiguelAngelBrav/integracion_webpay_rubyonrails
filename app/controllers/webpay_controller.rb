@@ -45,25 +45,45 @@ class WebpayController < ApplicationController
     file = Tempfile.new('webpay-mac-check', "#{root_path}/log/tmp/")
     file.write CGI.unescape(raw)
     file.rewind
-    exe = "#{check_cgi_path} #{file.path}"
+    cgi_to_exec = "#{check_cgi_path} #{file.path}"
 
-    Rails.logger.debug "<<<<< file.read: #{file.read}"
+    status = 200
+    headers = {}
+    body = ''
 
-    stderr = Tempfile.new('webpay-cgi-stderr', "#{root_path}/log/tmp/")
-    ENV['DOCUMENT_ROOT'] = root_path
-    env.each {|k, v| ENV[k] = v if v.respond_to? :to_str}
+    stderr = Tempfile.new 'webpay-cgi-stderr'
+    IO.popen('-', 'r+') do |io|
+      if io.nil?  # Child
+        $stderr.reopen stderr.path
+        ENV['DOCUMENT_ROOT'] = root_path
+        env.each {|k, v| ENV[k] = v if v.respond_to? :to_str}
 
-    exec ENV, exe
-    
-    stderr.write(env['rack.input'].read) if env['rack.input']
-    stderr.rewind
-    body = stderr.read
-    Rails.logger.debug "<<<<< body: #{body}"
+        exec ENV, cgi_to_exec
+      else        # Parent
+        io.write(env['rack.input'].read) if env['rack.input']
+        io.close_write
+        until io.eof? || (line = io.readline.chomp) == ''
+          if line =~ /\s*\:\s*/
+            key, value = line.split(/\s*\:\s*/, 2)
+            if headers.has_key? key
+              headers[key] += "\n" + value
+            else
+              headers[key] = value
+            end
+          end
+        end
+        body = io.read
+        stderr.rewind
+        stderr = stderr.read
+        Process.wait
+        unless $?.exitstatus == 0
+          raise CGIExecutionError
+        end
+      end
+    end
 
-    file.close!
-    stderr.close!
-
-    body
+    status = headers.delete('Status').to_i if headers.has_key? 'Status'
+    [status, headers, [body]]
   end
 
   def root_path
