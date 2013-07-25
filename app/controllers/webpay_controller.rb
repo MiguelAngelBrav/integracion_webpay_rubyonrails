@@ -65,16 +65,6 @@ class WebpayController < ApplicationController
         
         Rails.logger.debug "<<<<< io: #{io.read}"
 
-        until io.eof? || (line = io.readline.chomp) == ''
-          if line =~ /\s*\:\s*/
-            key, value = line.split(/\s*\:\s*/, 2)
-            if headers.has_key? key
-              headers[key] += "\n" + value
-            else
-              headers[key] = value
-            end
-          end
-        end
         body = io.read
         stderr.rewind
         stderr = stderr.read
