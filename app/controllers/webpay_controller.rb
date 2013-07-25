@@ -31,7 +31,7 @@ class WebpayController < ApplicationController
     result = validate_mac(ENV, request.raw_post)
     Rails.logger.debug "<<<<< result: #{result}"
 
-    if !result.include('CORRECTO')?
+    if !result.include? "CORRECTO"
       Rails.logger.debug "<<<<< trx rechazada: mac invalida "
       render :text => 'RECHAZADO', :layout => false
       
