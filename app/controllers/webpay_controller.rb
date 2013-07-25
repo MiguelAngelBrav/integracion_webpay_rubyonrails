@@ -35,6 +35,9 @@ class WebpayController < ApplicationController
       Rails.logger.debug "<<<<< trx rechazada: mac invalida "
       render :text => 'RECHAZADO', :layout => false
       
+    # implementacion requerida en un entorno real
+    # --------------------------------------------
+    
     # elsif (condition_oc_status)
     #   Rails.logger.debug "<<<<< trx rechazada: oc ya aprobada previamente "
     #   render :text => 'RECHAZADO', :layout => false
@@ -54,10 +57,8 @@ class WebpayController < ApplicationController
   
   # validacion de mac
   def validate_mac(env, raw)
-    body = ''
-
     file = Tempfile.new('webpay-mac-check', "#{root_path}/log/tmp/")
-    file.write CGI.unescape(raw)
+    file.write CGI.unescape(raw) # se guardan los parametros en un archivo temporal
     file.rewind
     cgi_to_exec = "#{check_cgi_path} #{file.path}"
 
