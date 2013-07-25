@@ -77,7 +77,9 @@ class WebpayController < ApplicationController
         stderr = stderr.read
         Process.wait
         unless $?.exitstatus == 0
-          raise CGIExecutionError
+          status = 200
+          headers = {}
+          body = 'INVALIDO'
         end
       end
     end
