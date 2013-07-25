@@ -44,7 +44,7 @@ class WebpayController < ApplicationController
     #   render :text => 'RECHAZADO', :layout => false
 
     else
-      Rails.logger.debug "<<<<< trx rechazada: monto no corresponde a la transaccion "
+      Rails.logger.debug "<<<<< trx aceptada! :) "
       render :text => 'ACEPTADO', :layout => false
       
     end
