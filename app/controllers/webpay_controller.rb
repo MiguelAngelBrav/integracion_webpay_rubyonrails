@@ -48,7 +48,7 @@ class WebpayController < ApplicationController
     cgi_to_exec = "#{check_cgi_path} #{file.path}"
 
     status = 200
-    headers = {}
+    headers = {'Content-Type' => 'text/html'}
     body = ''
 
     stderr = Tempfile.new 'webpay-cgi-stderr'
@@ -62,16 +62,6 @@ class WebpayController < ApplicationController
       else        # Parent
         io.write(env['rack.input'].read) if env['rack.input']
         io.close_write
-        until io.eof? || (line = io.readline.chomp) == ''
-          if line =~ /\s*\:\s*/
-            key, value = line.split(/\s*\:\s*/, 2)
-            if headers.has_key? key
-              headers[key] += "\n" + value
-            else
-              headers[key] = value
-            end
-          end
-        end
         body = io.read
         stderr.rewind
         stderr = stderr.read
