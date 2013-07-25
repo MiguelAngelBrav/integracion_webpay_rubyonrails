@@ -39,7 +39,7 @@ class WebpayController < ApplicationController
 
   private
   
-   def valida_mac(env, raw)
+  def valida_mac(env, raw)
     body = ''
 
     file = Tempfile.new('webpay-mac-check', "#{root_path}/log/tmp/")
@@ -50,36 +50,14 @@ class WebpayController < ApplicationController
     Rails.logger.debug "<<<<< file.read: #{file.read}"
 
     stderr = Tempfile.new('webpay-cgi-stderr', "#{root_path}/log/tmp/")
-    IO.popen('-', 'r+') do |io|
-      if io.nil?  # Child
-        $stderr.reopen stderr.path
-        ENV['DOCUMENT_ROOT'] = root_path
-        env.each {|k, v| ENV[k] = v if v.respond_to? :to_str}
-        
-        exec ENV, exe
-      else        # Parent
-        io.write(env['rack.input'].read) if env['rack.input']
-        io.close_write
+    exec exe
+    stderr.write(env['rack.input'].read) if env['rack.input']
+    stderr.rewind
+    body = stderr.read
+    Rails.logger.debug "<<<<< body: #{body}"
 
-        body = "#{io.read}" 
-        io.rewind       
-        Rails.logger.debug "<<<<< body: #{io.read}"
-
-        body = "#{io.read}"
-        stderr.rewind
-        stderr = stderr.read
-
-        Rails.logger.debug "<<<<< stderr: #{stderr}"
-
-        Process.wait
-        unless $?.exitstatus == 0
-          body = "INVALIDO"
-        end
-      end
-    end
-
-    file.close
-    file.unlink
+    file.close!
+    stderr.close!
 
     body
   end
