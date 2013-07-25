@@ -70,7 +70,7 @@ class WebpayController < ApplicationController
       end
     end
 
-    body and return
+    body
   end
 
   def root_path
