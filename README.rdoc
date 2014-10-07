@@ -2,12 +2,14 @@
 Este proyecto fue creado para ayudar a los desarrolladores a integrar WebPay en una aplicación RubyOnRails
 
 == Antes de comenzar
-Este proyecto no funciona con ninguna gema extra, solo fue creado con las gemas por defecto de una aplicación Rails nativa
+Este proyecto no funciona con ninguna gema extra, solo fue creado con las gemas por defecto de una aplicación Rails nativa.
+
 No toda la configuración necesaria es de la aplicación Rails, también es necesario configurar un virtual host. En el caso de esta aplicación, se hizo con apache
 
 == Configuración del proyecto
 === Subir el KCC al servidor
-Desde Transbank te envían el kit de webpay (KCC) en un archivo ZIP, sube este archivo al servidor. Posteriormente descomprimelo en la carpeta de destino
+Desde Transbank te envían el kit de webpay (KCC) en un archivo ZIP, sube este archivo al servidor. Posteriormente descomprimelo en la carpeta de destino.
+
 En esta aplicación, el kit se configuro en:
        integracion_webpay_rubyonrails/vendor/webpay
 
@@ -88,10 +90,11 @@ No olvides configurar tu apache, para que escuche el puerto del virtual host. En
        Listen 8080
        
 == Autor
-Esta aplicación fue desarrollada por Miguel Angel Bravo (@MiguelAngelBrav), y Nicolas Mery (@NicolasMery)
+Esta aplicación fue desarrollada por Miguel Angel Bravo (Twitter: {@MiguelAngelBrav}[http://twitter.com/miguelangelbrav]), y Nicolas Mery (Twitter: {@NicolasMery}[http://twitter.com/nicolasmery])
 
 == Licencia
 Esta aplicación puede ser usada por cualquier persona y/ó empresa para fines personales, comerciales ó lo que estime conveniente
 siempre y cuando respete las normas y leyes vigentes en Chile.
+
 
 
